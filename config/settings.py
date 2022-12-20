@@ -43,8 +43,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'drf_yasg',
-    'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt',
     'django_filters',
+    'apps.smartphones',
 ]
 
 MIDDLEWARE = [
