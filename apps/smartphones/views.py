@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from .models import Brand, Smartphone
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from .serializers import (BrandSerializer, SmartphoneListSerializer, SmartphoneSerializer)
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.generics import (ListAPIView, ListCreateAPIView, CreateAPIView, UpdateAPIView,
+from rest_framework.permissions import IsAdminUser, AllowAny
+from .serializers import (BrandSerializer, SmartphoneListSerializer,
+                          SmartphoneSerializer, SmartCreateSerializer)
+from rest_framework.generics import (ListAPIView, ListCreateAPIView, CreateAPIView,
                                      RetrieveAPIView, RetrieveUpdateDestroyAPIView)
 
 
@@ -23,32 +21,20 @@ class SmartphoneAPIView(RetrieveAPIView):
 
 class SmartphoneCreateAPIView(CreateAPIView):
     queryset = Smartphone.objects.all()
-    serializer_class = SmartphoneSerializer
-    # permission_classes = [IsAdminUser]
+    serializer_class = SmartCreateSerializer
+    permission_classes = [IsAdminUser]
 
 
 class SmartphoneUpdateAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Smartphone.objects.all()
-    serializer_class = SmartphoneSerializer
-    # permission_classes = [IsAdminUser]
+    serializer_class = SmartCreateSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
 
-    # def get_permissions(self):
-    #     if self.action in ['create', 'destroy', 'update', 'partial_update']:
-    #         self.permission_classes = [IsAdminUser]
-    #     if self.action in ['list', 'retrieve']:
-    #         self.permission_classes = [AllowAny]
 
-
-class BrandListAPIView(ListAPIView):
+class BrandListAPIView(ListCreateAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
-
-
-class BrandAPIView(RetrieveAPIView):
-    queryset = Brand.objects.all()
-    serializer_class = BrandSerializer
-    lookup_field = 'slug'
 
 
 

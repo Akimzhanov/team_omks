@@ -4,7 +4,7 @@ from slugify import slugify
 
 class Brand(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=250, primary_key=True, blank=True, unique=True)
+    slug = models.SlugField(max_length=250, primary_key=True, blank=True)
 
     def __str__(self):
         return self.title

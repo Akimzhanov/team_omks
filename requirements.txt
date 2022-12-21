@@ -6,3 +6,6 @@ wheel
 djangorestframework
 django-filter
 drf-yasg
+celery 
+redis
+djangorestframework-simplejwt

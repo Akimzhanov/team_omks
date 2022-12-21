@@ -6,7 +6,5 @@ urlpatterns = [
     path('create/', views.SmartphoneCreateAPIView.as_view()),
     path('<slug:slug>/', views.SmartphoneAPIView.as_view()),
     path('<slug:slug>/update/', views.SmartphoneUpdateAPIView.as_view()),
-
     path('brands/', views.BrandListAPIView.as_view()),
-    path('brands/<slug:slug>', views.BrandAPIView.as_view())
 ]
