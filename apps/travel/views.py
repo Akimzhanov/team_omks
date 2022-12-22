@@ -16,5 +16,5 @@ class TravelView(ModelViewSet):
         if self.action == 'create' or self.action == 'destroy' or self.action == 'update':
             permission_classes = [IsAdminUser]
         elif self.action == 'list' or self.action == 'retrieve':
-            permission_classes = [IsAuthenticated]
+            permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]

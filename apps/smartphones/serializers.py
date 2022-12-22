@@ -17,7 +17,7 @@ class SmartImageSerializer(serializers.ModelSerializer):
 class SmartphoneListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Smartphone
-        fields = "title price color slug".split()
+        fields = "title price color image in_stock smart_images".split()
 
 
 class SmartphoneSerializer(serializers.ModelSerializer):
