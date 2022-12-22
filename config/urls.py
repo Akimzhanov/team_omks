@@ -38,6 +38,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('smartphones/', include('apps.smartphones.urls')),
     path('account/', include('apps.account.urls')),
+    path('travel/', include('apps.travel.urls')),
 ]
 
 if settings.DEBUG:
