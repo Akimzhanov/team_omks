@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework_simplejwt',
     'django_filters',
+
+    'apps.smartphones',
+
     'apps.account',
 
     'apps.travel',
