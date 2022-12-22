@@ -15,6 +15,8 @@ class SmartImageSerializer(serializers.ModelSerializer):
 
 
 class SmartphoneListSerializer(serializers.ModelSerializer):
+    smart_images = SmartImageSerializer(many=True)
+
     class Meta:
         model = Smartphone
         fields = "title price color image in_stock smart_images".split()
@@ -37,7 +39,6 @@ class SmartCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Smartphone
-        # fields = '__all__'
         fields = ('title', 'slug', 'image', 'price', 'color', 'memory', 'quantity', 'in_stock', 'brand',
                   'description', 'created_at', 'updated_at', 'carousel_img')
 
