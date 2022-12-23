@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import Brand, Smartphone, SmartImage
+from .models import Smartphone, SmartImage, Brand
 
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
-        fields = '__all__'
+        fields = "title slug".split()
 
 
 class SmartImageSerializer(serializers.ModelSerializer):
@@ -15,22 +15,21 @@ class SmartImageSerializer(serializers.ModelSerializer):
 
 
 class SmartphoneListSerializer(serializers.ModelSerializer):
-    # smart_images = SmartImageSerializer(many=True)
+    smart_images = SmartImageSerializer(many=True)
 
     class Meta:
         model = Smartphone
-        fields = "title price color image in_stock".split()
+        fields = "title price color image in_stock smart_images".split()
 
 
 class SmartphoneSerializer(serializers.ModelSerializer):
+    smart_images = SmartImageSerializer(many=True)
+
     class Meta:
         model = Smartphone
-        fields = '__all__'
+        fields = ('title', 'slug', 'image', 'price', 'color', 'memory', 'quantity', 'in_stock', 'brand',
+                  'description', 'created_at', 'updated_at', 'smart_images')
 
-    def to_representation(self, instance):
-        rep = super().to_representation(instance)
-        rep['carousel'] = SmartImageSerializer(
-            instance.smart_images.all(), many=True).data
 
 class SmartCreateSerializer(serializers.ModelSerializer):
     carousel_img = serializers.ListField(
@@ -40,8 +39,7 @@ class SmartCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Smartphone
-        fields = ('title', 'slug', 'image', 'price', 'color', 'memory', 'quantity', 'in_stock', 'brand',
-                  'description', 'created_at', 'updated_at', 'carousel_img')
+        fields = '__all__'
 
     def create(self, validated_data):
         carousel_images = validated_data.pop('carousel_img')
@@ -52,3 +50,4 @@ class SmartCreateSerializer(serializers.ModelSerializer):
         SmartImage.objects.bulk_create(images)
         return smart
 
+   

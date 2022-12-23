@@ -1,10 +1,11 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from apps.smartphones.views import SmartView
+
+router = DefaultRouter()
+router.register('', SmartView)
 
 urlpatterns = [
-    path('', views.SmartphoneListAPIView.as_view()),
-    path('create/', views.SmartphoneCreateAPIView.as_view()),
-    path('<slug:slug>/', views.SmartphoneAPIView.as_view()),
-    path('<slug:slug>/update/', views.SmartphoneUpdateAPIView.as_view()),
-    path('brands/', views.BrandListAPIView.as_view()),
+    path('', include(router.urls))
 ]
+

@@ -1,5 +1,11 @@
 from django.db import models
 from slugify import slugify
+from datetime import datetime
+
+
+def get_time():
+    format = '%M'
+    return datetime.now().strftime(format)
 
 
 class Brand(models.Model):
@@ -18,7 +24,6 @@ class Brand(models.Model):
 class Smartphone(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=220, primary_key=True, blank=True)
-    image = models.ImageField(upload_to='smart_images')
     price = models.PositiveIntegerField()
     color = models.CharField(max_length=100)
     memory = models.CharField(max_length=10)
@@ -33,8 +38,9 @@ class Smartphone(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        self.in_stock = self.quantity > 0
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.title + get_time())
         super().save(*args, **kwargs)
 
 
