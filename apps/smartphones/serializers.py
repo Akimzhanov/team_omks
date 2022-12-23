@@ -1,37 +1,23 @@
 from rest_framework import serializers
-from .models import Brand, Smartphone, SmartImage
+from .models import Smartphone, SmartImage
 
 
-class BrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Brand
-        fields = "title slug".split()
-
-
-class SmartImageSerializer(serializers.ModelSerializer):
+class SmartImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = SmartImage
         fields = 'image',
 
 
-class SmartphoneListSerializer(serializers.ModelSerializer):
-    smart_images = SmartImageSerializer(many=True)
+class SmartListSerializer(serializers.ModelSerializer):
+    smart_images = SmartImagesSerializer(many=True, read_only=True)
 
     class Meta:
         model = Smartphone
-        fields = "title price color image in_stock smart_images".split()
+        fields = "title slug price color in_stock smart_images".split()
 
 
-class SmartphoneSerializer(serializers.ModelSerializer):
-    smart_images = SmartImageSerializer(many=True)
-
-    class Meta:
-        model = Smartphone
-        fields = ('title', 'slug', 'image', 'price', 'color', 'memory', 'quantity', 'in_stock', 'brand',
-                  'description', 'created_at', 'updated_at', 'smart_images')
-
-
-class SmartCreateSerializer(serializers.ModelSerializer):
+class SmartSerializer(serializers.ModelSerializer):
+    smart_images = SmartImagesSerializer(many=True, read_only = True)
     carousel_img = serializers.ListField(
         child=serializers.FileField(),
         write_only=True
@@ -39,8 +25,7 @@ class SmartCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Smartphone
-        fields = ('title', 'slug', 'image', 'price', 'color', 'memory', 'quantity', 'in_stock', 'brand',
-                  'description', 'created_at', 'updated_at', 'carousel_img')
+        fields = '__all__'
 
     def create(self, validated_data):
         carousel_images = validated_data.pop('carousel_img')
@@ -51,3 +36,4 @@ class SmartCreateSerializer(serializers.ModelSerializer):
         SmartImage.objects.bulk_create(images)
         return smart
 
+   

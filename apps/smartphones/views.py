@@ -1,40 +1,26 @@
-from .models import Brand, Smartphone
+from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAdminUser, AllowAny
-from .serializers import (BrandSerializer, SmartphoneListSerializer,
-                          SmartphoneSerializer, SmartCreateSerializer)
-from rest_framework.generics import (ListAPIView, ListCreateAPIView, CreateAPIView,
-                                     RetrieveAPIView, RetrieveUpdateDestroyAPIView)
+from apps.smartphones.models import Smartphone
+from apps.smartphones.serializers import SmartSerializer, SmartListSerializer
 
 
-class SmartphoneListAPIView(ListAPIView):
+class SmartView(ModelViewSet):
     queryset = Smartphone.objects.all()
-    serializer_class = SmartphoneListSerializer
-    permission_classes = [AllowAny]
+    serializer_class = SmartSerializer
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return SmartListSerializer
+        elif self.action == 'create':
+            return SmartSerializer
+        return super().get_serializer_class()
 
-class SmartphoneAPIView(RetrieveAPIView):
-    queryset = Smartphone.objects.all()
-    serializer_class = SmartphoneSerializer
-    permission_classes = [AllowAny]
-    lookup_field = 'slug'
-
-
-class SmartphoneCreateAPIView(CreateAPIView):
-    queryset = Smartphone.objects.all()
-    serializer_class = SmartCreateSerializer
-    permission_classes = [IsAdminUser]
-
-
-class SmartphoneUpdateAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Smartphone.objects.all()
-    serializer_class = SmartCreateSerializer
-    permission_classes = [IsAdminUser]
-    lookup_field = 'slug'
-
-
-class BrandListAPIView(ListCreateAPIView):
-    queryset = Brand.objects.all()
-    serializer_class = BrandSerializer
-
-
+    def get_permissions(self):
+        permission_classes = []
+        if self.action == 'create' or self.action == 'destroy' or self.action == 'update':
+            permission_classes = [IsAdminUser]
+        elif self.action == 'list' or self.action == 'retrieve':
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
 
