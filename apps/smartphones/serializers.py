@@ -8,30 +8,22 @@ class BrandSerializer(serializers.ModelSerializer):
         fields = "title slug".split()
 
 
-class SmartImageSerializer(serializers.ModelSerializer):
+class SmartImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = SmartImage
         fields = 'image',
 
 
-class SmartphoneListSerializer(serializers.ModelSerializer):
-    smart_images = SmartImageSerializer(many=True)
+class SmartListSerializer(serializers.ModelSerializer):
+    smart_images = SmartImagesSerializer(many=True)
 
     class Meta:
         model = Smartphone
-        fields = "title price color image in_stock smart_images".split()
+        fields = "title price color in_stock smart_images".split()
 
 
-class SmartphoneSerializer(serializers.ModelSerializer):
-    smart_images = SmartImageSerializer(many=True)
-
-    class Meta:
-        model = Smartphone
-        fields = ('title', 'slug', 'image', 'price', 'color', 'memory', 'quantity', 'in_stock', 'brand',
-                  'description', 'created_at', 'updated_at', 'smart_images')
-
-
-class SmartCreateSerializer(serializers.ModelSerializer):
+class SmartSerializer(serializers.ModelSerializer):
+    smart_images = SmartImagesSerializer(many=True, read_only = True)
     carousel_img = serializers.ListField(
         child=serializers.FileField(),
         write_only=True

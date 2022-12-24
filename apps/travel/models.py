@@ -5,6 +5,8 @@ class Travel(models.Model):
     phone_number = models.CharField(max_length=30, default='+996')
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    quantity = models.IntegerField(default=0)
+    in_stock = models.BooleanField(default=False)
     date = models.DateTimeField()
     transport = models.CharField(max_length=50)
     living = models.TextField(max_length=100) #Условие проживания
