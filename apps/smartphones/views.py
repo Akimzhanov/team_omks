@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAdminUser, AllowAny
 from apps.smartphones.models import Smartphone
 from apps.smartphones.serializers import SmartSerializer, SmartListSerializer
 
-
 class SmartView(ModelViewSet):
     queryset = Smartphone.objects.all()
     serializer_class = SmartSerializer

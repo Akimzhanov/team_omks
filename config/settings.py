@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+from corsheaders.defaults import default_headers
+from corsheaders.defaults import default_methods
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "corsheaders",
+
     'rest_framework',
     'drf_yasg',
     'rest_framework_simplejwt',
@@ -52,19 +55,72 @@ INSTALLED_APPS = [
 
     'apps.travel',
 
+    'apps.order',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "corsheaders.middleware.CorsPostCsrfMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+CORS_ALLOWED_ORIGINS = False
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://read.only.com",
+    "http://3.84.199.102",
+    "http://localhost:3000",
+
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://change.allowed.com",
+
+]
+
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ORIGIN_WHITELIST = [
+    "http://127.0.0.1:3000",
+    "http://localhost:3030",
+    "http://3.84.199.102",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "delete",
+    "post",
+    'get',
+]
+
 
 TEMPLATES = [
     {

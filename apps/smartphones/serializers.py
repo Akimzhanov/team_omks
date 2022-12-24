@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import Smartphone, SmartImage
+from .models import Smartphone, SmartImage, Brand
+
+
+class BrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brand
+        fields = "title slug".split()
 
 
 class SmartImagesSerializer(serializers.ModelSerializer):
@@ -9,11 +15,11 @@ class SmartImagesSerializer(serializers.ModelSerializer):
 
 
 class SmartListSerializer(serializers.ModelSerializer):
-    smart_images = SmartImagesSerializer(many=True, read_only=True)
+    smart_images = SmartImagesSerializer(many=True)
 
     class Meta:
         model = Smartphone
-        fields = "title slug price color in_stock smart_images".split()
+        fields = "title price color in_stock smart_images".split()
 
 
 class SmartSerializer(serializers.ModelSerializer):

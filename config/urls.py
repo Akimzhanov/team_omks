@@ -39,6 +39,7 @@ urlpatterns = [
     path('smartphones/', include('apps.smartphones.urls')),
     path('account/', include('apps.account.urls')),
     path('travel/', include('apps.travel.urls')),
+    path('order/', include('apps.order.urls')),
 ]
 
 if settings.DEBUG:
